@@ -9,8 +9,10 @@ class Proguard < Formula
   def install
     libexec.install "lib/proguard.jar"
     libexec.install "lib/proguardgui.jar"
+    libexec.install "lib/retrace.jar"
     bin.write_jar_script libexec/"proguard.jar", "proguard"
     bin.write_jar_script libexec/"proguardgui.jar", "proguardgui"
+    bin.write_jar_script libexec / "retrace.jar", "retrace"
   end
 
   test do
@@ -19,5 +21,10 @@ class Proguard < Formula
       Usage: java proguard.ProGuard [options ...]
     EOS
     assert_equal expect, shell_output("#{bin}/proguard", 1)
+
+    expect = <<~EOS
+      Usage: java proguard.retrace.ReTrace [-regex <regex>] [-verbose] <mapping_file> [<stacktrace_file>]
+    EOS
+    assert_equal expect, shell_output("#{bin}/retrace", 1)
   end
 end
